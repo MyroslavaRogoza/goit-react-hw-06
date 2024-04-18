@@ -7,9 +7,7 @@ const SearchBox = ({ filter, onFilter }) => {
         type="text"
         className={css.searchInput}
         value={filter}
-        onChange={(evt) => {
-          return onFilter(evt.target.value);
-        }}
+        onChange={onFilter}
       />
     </div>
   );
