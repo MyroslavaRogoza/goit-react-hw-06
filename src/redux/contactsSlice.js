@@ -3,21 +3,19 @@ import { initialState } from "./initialState";
 
 const contactsSlice = createSlice({
   name: "contacts",
-  initialState: initialState,
+  initialState: initialState.contacts,
   reducers: {
     addContact(state, action) {
-      state.contacts.items.push(action.payload);
+      state.items.push(action.payload);
     },
     deleteContact(state, action) {
-      state.contacts.items = state.contacts.items.filter((contact) => {
+      state.items = state.items.filter((contact) => {
         return contact.id !== action.payload;
       });
     },
   },
 });
-export const { addContact, deleteContact } =
-  contactsSlice.actions;
 
-export const selectContacts = state => state.contacts.contacts.items;
-
+export const { addContact, deleteContact } = contactsSlice.actions;
+export const selectContacts = (state) => state.contacts.items;
 export const contactsReducer = contactsSlice.reducer;

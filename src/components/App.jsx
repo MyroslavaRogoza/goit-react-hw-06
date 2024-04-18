@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { changeFilter, selectNameFilter } from "../redux/filtersSlice";
 import "./App.css";
 import ContactForm from "./ContactForm/ContactForm";
 import SearchBox from "./SearchBox/SearchBox";
@@ -13,7 +14,7 @@ import {
 } from "../redux/contactsSlice";
 
 function App() {
-  const [filter, setFilter] = useState("");
+  // const [filter, setFilter] = useState("");
   // const [contacts, setContacts] = useState(() => {
   //   const stringifiedContacts = localStorage.getItem("contacts");
   //   if (!stringifiedContacts) {
@@ -24,6 +25,7 @@ function App() {
   // });
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
+  const filter = useSelector(selectNameFilter);
   const filteredContacts = contacts.filter((contact) => {
     return (
       contact.name.toLowerCase().includes(filter.toLowerCase()) ||
@@ -42,22 +44,19 @@ function App() {
     dispatch(deleteContact(contactId));
   };
 
-
-  function onFilter(evt) {
-    // terContac - функція екшн креатор
-    // const action =  filterContact(evt.target.value);
-    dispatch();
+  function setFilter(evt) {
+    dispatch(changeFilter(evt.target.value));
   }
 
-  useEffect(() => {
-    window.localStorage.setItem("contacts", JSON.stringify(contacts));
-  }, [contacts]);
+  // useEffect(() => {
+  //   window.localStorage.setItem("contacts", JSON.stringify(contacts));
+  // }, [contacts]);
 
   return (
     <div>
       <h1>Phonebook</h1>
       <ContactForm onAddContact={onAddContact} />
-      <SearchBox filter={filter} onFilter={onFilter} />
+      <SearchBox filter={filter} setFilter={setFilter} />
       <ContactList
         contacts={filteredContacts}
         onDeleteContact={onDeleteContact}
